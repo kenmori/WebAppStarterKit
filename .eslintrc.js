@@ -6,23 +6,23 @@ module.exports = {
     "react",
     "jest",
     "cypress",
-    "@typescript-eslint"
+    "@typescript-eslint",
   ],
   env: {
     // 'jest/globals': true,
     node: true,
     "cypress/globals": true,
-    es6: true
+    es6: true,
   },
   parserOptions: {
     ecmaVersion: 2017,
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     sourceType: "module",
     useJSXTextNode: false,
     warnOnUnsupportedTypeScriptVersion: true,
-    project: "./tsconfig.json"
+    project: "./tsconfig.json",
   },
   extends: [
     "eslint:recommended",
@@ -31,7 +31,7 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
   rules: {
     "prettier/prettier": [
@@ -39,8 +39,8 @@ module.exports = {
       {
         semi: false,
         singleQuote: true,
-        tabWidth: 2
-      }
+        tabWidth: 2,
+      },
     ],
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": "error",
@@ -53,37 +53,32 @@ module.exports = {
       {
         multiline: {
           delimiter: "none",
-          requireLast: false
+          requireLast: false,
         },
         singleline: {
           delimiter: "semi",
-          requireLast: false
-        }
-      }
+          requireLast: false,
+        },
+      },
     ],
     "@typescript-eslint/member-naming": "error",
     "@typescript-eslint/member-ordering": [
       "error",
-      { default: ["field", "constructor", "method"] }
+      { default: ["field", "constructor", "method"] },
     ],
-    // '@typescript-eslint/no-angle-bracket-type-assertion': 'error',
     "no-array-constructor": "off",
     "@typescript-eslint/no-array-constructor": "error",
     "@typescript-eslint/no-misused-new": "error",
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-non-null-assertion": "error",
-    // '@typescript-eslint/no-object-literal-type-assertion': [
-    //   'error',
-    //   { allowAsParameter: false }
-    // ],
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-this-alias": ["error", { allowDestructuring: true }],
-    // '@typescript-eslint/no-triple-slash-reference': 'error',
+    "@typescript-eslint/triple-slash-reference": "error",
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
-      { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
+      { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
     ],
     "no-useless-constructor": "off",
     "@typescript-eslint/no-useless-constructor": "error",
@@ -107,8 +102,8 @@ module.exports = {
       {
         components: ["Link"],
         specialLink: ["to", "hrefLeft", "hrefRight"],
-        aspects: ["noHref", "invalidHref", "preferButton"]
-      }
-    ]
-  }
+        aspects: ["noHref", "invalidHref", "preferButton"],
+      },
+    ],
+  },
 };
