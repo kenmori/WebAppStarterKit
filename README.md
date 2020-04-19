@@ -21,9 +21,9 @@ with below plugin
 - redux-logger
 - prettier
 
-## node version
+## require
 
-`nvm use v12.16.2`
+node version is 12.x.x
 
 ## start
 
