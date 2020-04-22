@@ -1,7 +1,17 @@
 
 # Example Mock App(React x Redux x Typescript x react-router x redux-thunk x mock-server)
 
-and setuped...
+Already created page is
+
+- Top
+- SignUp
+- Login
+- ForgetPassword
+- Menu
+- NotFound
+
+
+with below plugin
 
 - react-helmet
 - styled-components
