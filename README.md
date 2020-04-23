@@ -10,7 +10,6 @@ Already created page is
 - Menu
 - NotFound
 
-
 with below plugin
 
 - react-helmet
@@ -26,14 +25,22 @@ with below plugin
 
 `nvm use v12.16.2`
 
-## start app
+## start
 
 yarn install
 
 yarn start
 
+## start sever
+
+yarn start:server
+
+try to curl http://localhost:5000/
+
+if you want to create mock data, write server/routes
 
 ---
+
 # npm install -g npm-check-updates
 
 `ncu`
