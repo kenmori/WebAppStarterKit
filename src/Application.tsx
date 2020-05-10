@@ -29,6 +29,7 @@ import * as PrivacyPolicy from "page/PrivacyPolicy";
 import * as AboutCompany from "page/AboutCompany";
 import * as Faq from "page/Faq";
 import * as SiteMap from "page/SiteMap";
+import { normalize, schema } from "normalizr";
 
 const GlobalStyle = StyledComponents.createGlobalStyle`
   ${StyledResetAdvanced.default}
@@ -45,30 +46,171 @@ const Application: React.FC = () => {
       email: string;
     };
   }>({
-    user: { isAuthenticated: false, cookie: "", id: "", email: "" }
+    user: { isAuthenticated: false, cookie: "", id: "", email: "" },
   });
-  // const fetchMe = async () => {
-  //   try {
-  //     const { data } =
+  // thank you https://json.okiba.me/
 
-  //   } catch (e) {}
-  // .then(res => {
-  //     const cookie = document.cookie.split('_csrf=')[1] // TODO
-  //     if (res.status) {
-  //       setState({ user: { isAuthenticated: true, cookie } })
-  //     } else {
-  //       setState({ user: { isAuthenticated: false, cookie } })
+  // {
+  //   "id": "123",
+  //   "author": {
+  //     "id": "1",
+  //     "name": "Paul"
+  //   },
+  //   "title": "My awesome blog post",
+  //   "comments": [
+  //     {
+  //       "id": "324",
+  //       "commenter": {
+  //         "id": "2",
+  //         "name": "Nicole"
+  //       }
   //     }
-  //   })
-  //   .catch(e => {
-  //     // console.log(e.response.data.status);iA
-  //     const cookie = document.cookie.split('_csrf=')[1] // TODO
-  //     setState({ user: { isAuthenticated: false, cookie } })
-  //     // ログインログアウト制御 ここを外す　history.push('/login')
-  //   })
+  //   ]
   // }
-  // const context = React.useContext(Context.default)
-  // const dispatch = ReactRedux.useDispatch()
+
+  //to
+
+  // {
+  // 	"id": "123",
+  // 	"author": {
+  // 		"id": "1",
+  // 		"name": "Paul"
+  // 	},
+  // 	"title": "My awesome blog post",
+  // 	"comments": [
+  // 		{
+  // 			"id": "324",
+  // 			"commenter": {
+  // 				"id": "2",
+  // 				"name": "Nicole"
+  // 			}
+  // 		}
+  // 	]
+  // }
+  const [stateData, setData] = React.useState([]);
+  const [,] = React.useState([]);
+  React.useEffect(() => {
+    const data2 = {
+      status: 200,
+      teams: [
+        {
+          type: "",
+          sport_id: 1,
+          name: "a",
+        },
+        {
+          id: 2,
+          sport_id: 1,
+          name: "b",
+        },
+        {
+          id: 3,
+          sport_id: 1,
+          name: "c",
+        },
+        {
+          id: 4,
+          sport_id: 1,
+          name: "d",
+        },
+        {
+          id: 5,
+          sport_id: 2,
+          name: "e",
+        },
+        {
+          id: 6,
+          sport_id: 2,
+          name: "f",
+        },
+        {
+          id: 7,
+          sport_id: 2,
+          name: "g",
+        },
+        {
+          id: 8,
+          sport_id: 2,
+          name: "h",
+        },
+        {
+          id: 9,
+          sport_id: 2,
+          name: "i",
+        },
+      ],
+    };
+    const teamsArray = data2.teams;
+    const team = new schema.Entity("teams");
+    const teams = new schema.Array(team);
+    const normalizedata2 = normalize(teamsArray, teams);
+    console.log(normalizedata2);
+  }, []);
+
+  React.useEffect(() => {
+    const selectors = [
+      {
+        type: "text",
+        id: 2,
+        name: "a",
+      },
+      {
+        type: "select",
+        id: 1,
+        name: "select",
+      },
+      {
+        type: "text",
+        id: 2,
+        name: "b",
+      },
+      {
+        type: "text",
+        id: 3,
+        name: "c",
+      },
+      {
+        type: "textarea",
+        id: 1,
+        name: "area",
+      },
+    ];
+    const selectSchema = new schema.Entity("select");
+    const textSchema = new schema.Entity("text");
+    const textareaSchema = new schema.Entity("textarea"); // ここがtypeの値になる
+    const myArraySchema = new schema.Array(
+      {
+        select: selectSchema,
+        text: textSchema,
+        textarea: textareaSchema, // keyを間違えると生成されない
+      },
+      (input, parent, key) => {
+        console.log("input", input, "parent", parent, "key", key);
+        return input.type; // typeごとにschemaを作る場合
+      }
+    );
+    const data3 = normalize(selectors, myArraySchema);
+    console.log("data3", data3);
+  }, []);
+  React.useEffect(() => {
+    async function f() {
+      const res = await fetch(
+        "https://jsondata.okiba.me/v1/json/oGB0G200510001819"
+      );
+      const data = await res.json();
+      const user = new schema.Entity("user");
+      const comments = new schema.Entity("comments", { commenter: user });
+      const article = new schema.Entity("article", {
+        author: user,
+        comments: [comments],
+      });
+      const normalizeData = normalize(data, article);
+      console.log(normalizeData);
+      setData(data);
+    }
+    f();
+  }, []);
+  console.log(stateData);
   React.useEffect(() => {
     const cookie = document.cookie.split("_csrf=")[1];
     let unmounted = false;
@@ -76,7 +218,7 @@ const Application: React.FC = () => {
       const res = await client.get("/me");
       if (!unmounted) {
         setState({
-          user: { isAuthenticated: false, cookie, id: "", email: "" }
+          user: { isAuthenticated: false, cookie, id: "", email: "" },
         });
       }
       if (res.status === 200) {
@@ -85,12 +227,12 @@ const Application: React.FC = () => {
             isAuthenticated: true,
             cookie,
             id: res.data.user.id,
-            email: res.data.user.email
-          }
+            email: res.data.user.email,
+          },
         });
       } else {
         setState({
-          user: { isAuthenticated: false, cookie, id: "", email: "" }
+          user: { isAuthenticated: false, cookie, id: "", email: "" },
         });
       }
     };
@@ -111,7 +253,7 @@ const Application: React.FC = () => {
         window.location.reload();
         window.location.href = "/login";
         setState({
-          user: { isAuthenticated: false, email: "", id: "", cookie: "" }
+          user: { isAuthenticated: false, email: "", id: "", cookie: "" },
         });
       } else {
         console.log("失敗しました");
@@ -138,9 +280,9 @@ const Application: React.FC = () => {
                         isAuthenticated: applicationState.user.isAuthenticated,
                         cookie: applicationState.user.cookie,
                         id: applicationState.user.id,
-                        email: applicationState.user.email
-                      }
-                    }
+                        email: applicationState.user.email,
+                      },
+                    },
                   }}
                 >
                   <Header.Component
@@ -154,7 +296,7 @@ const Application: React.FC = () => {
                   <ReactRouter.Switch>
                     <ReactRouter.Route
                       exact
-                      render={props => <Top.Component {...props} />}
+                      render={(props) => <Top.Component {...props} />}
                       path={`/`}
                     />
                     <ReactRouter.Route
