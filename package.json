@@ -30,6 +30,7 @@
     "history": "^4.10.1",
     "immer": "^6.0.5",
     "qs": "^6.9.4",
+    "normalizr": "^3.6.0",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
