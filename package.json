@@ -28,7 +28,7 @@
     "formik": "^2.1.4",
     "gh-pages": "^2.2.0",
     "history": "^4.10.1",
-    "immer": "^6.0.5",
+    "immer": "^8.0.1",
     "qs": "^6.9.4",
     "normalizr": "^3.6.0",
     "query-string": "^6.12.1",
